@@ -18,7 +18,7 @@ export default function HowToUse() {
     <div className="flex flex-col md:flex-row max-w-6xl justify-between lg:justify-evenly mx-auto gap-4">
       {infoSteps.map(step => {
         return (
-          <div className="bg-neutral md:h-48 md:w-64 card rounded-box p-6 gap-2 min-h-12 md:min-h-52 ">
+          <div className="bg-neutral md:h-48 md:w-72 card rounded-box p-6 gap-2 min-h-12 md:min-h-52 ">
             <h3 className="text-white font-bold uppercase text-xl">
               {step.heading}
             </h3>
