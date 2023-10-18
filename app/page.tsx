@@ -1,11 +1,13 @@
 import Hero from "@/components/Hero";
+import HowToUse from "@/components/HowToUse";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-12 md:pt-12">
       <Hero />
-      <h2>Hello</h2>
+      <div className="divider lg:divider-vertical py-12"></div>
+      <HowToUse />
     </div>
   );
 }
