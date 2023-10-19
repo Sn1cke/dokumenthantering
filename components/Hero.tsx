@@ -22,6 +22,7 @@ export default function Hero() {
         width={600}
         height={600}
         alt="Hero image of man sitting on documents"
+        priority
       />
     </div>
   );

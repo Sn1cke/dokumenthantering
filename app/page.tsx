@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
 import HowToUse from "@/components/HowToUse";
-import Image from "next/image";
 
 export default function Home() {
   return (
