@@ -15,7 +15,7 @@ export default function HowToUse() {
   ];
 
   return (
-    <div className="flex flex-col md:flex-row max-w-6xl justify-between lg:justify-evenly mx-auto gap-4">
+    <div className="flex flex-col md:flex-row max-w-6xl justify-between lg:justify-evenly mx-auto gap-4 mb-16">
       {infoSteps.map((step, index) => {
         return (
           <div

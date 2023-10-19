@@ -95,7 +95,7 @@ const documents: Document[] = [
 
 export default function DocumentsPage() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mb-16">
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           <thead>
