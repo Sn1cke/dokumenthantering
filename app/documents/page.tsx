@@ -115,12 +115,12 @@ export default function DocumentsPage() {
 
               return (
                 <tr key={`document-${document.id}`} className="hover">
-                  <Link href={`/documents/${document.id}`}>
-                    <td className="flex gap-2 items-center">
-                      <HiDocumentText className="h-8 w-8 text-secondary" />
+                  <td className="flex gap-2 items-center">
+                    <HiDocumentText className="h-8 w-8 text-secondary" />
+                    <Link href={`/documents/${document.id}`}>
                       {document.title}
-                    </td>
-                  </Link>
+                    </Link>
+                  </td>
 
                   <td className="hidden md:table-cell">{truncatedContent}</td>
                   <td className="hidden sm:table-cell">{document.author}</td>
