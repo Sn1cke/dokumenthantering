@@ -3,5 +3,7 @@ export interface Document {
   title: string;
   content: string;
   author: string;
-  dateCreated?: string;
+  dateCreated: string;
+  textColor?: string;
+  backgroundColor?: string;
 }
