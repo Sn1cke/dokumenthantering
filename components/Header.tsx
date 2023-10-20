@@ -14,7 +14,7 @@ export default function Header() {
                 Documents
               </div>
             </Link>
-            <Link href="/documents">
+            <Link href="/create">
               <div className="text-neutral-content font-semibold">
                 Create new
               </div>
