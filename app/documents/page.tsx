@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { Document } from "@/interfaces";
 import { HiDocumentText } from "react-icons/hi";
-import dbQuery from "@/lib/db";
 import { useEffect, useState } from "react";
 
 export default function DocumentsPage() {
@@ -10,7 +9,7 @@ export default function DocumentsPage() {
 
   useEffect(() => {
     const getDocumentsData = async () => {
-      const result = await fetch("/api");
+      const result = await fetch("/api/documents");
       const documentsFromAPI = await result.json();
       setDocuments(documentsFromAPI);
     };
@@ -25,13 +24,13 @@ export default function DocumentsPage() {
 
     return (
       <tr key={`document-${document.id}`} className="hover">
-        <td className="flex gap-2 items-center">
+        <td className="flex gap-2 items-center font-semibold">
           <HiDocumentText className="h-8 w-8 text-secondary" />
           <Link href={`/documents/${document.id}`}>{document.title}</Link>
         </td>
 
         <td className="hidden md:table-cell">{truncatedContent}</td>
-        <td className="hidden sm:table-cell">{document.author}</td>
+        <td className="hidden sm:table-cell font-medium">{document.author}</td>
         <td>{document.dateCreated}</td>
       </tr>
     );
@@ -40,7 +39,7 @@ export default function DocumentsPage() {
   return (
     <div>
       <div className="container mx-auto p-4 mb-16 mt-8">
-        <h2 className="text-xl font-bold text-secondary">Documents</h2>
+        <h2 className="text-2xl font-bold text-secondary">Documents</h2>
         <div className="overflow-x-auto mt-4">
           <table className="table table-zebra">
             <thead>

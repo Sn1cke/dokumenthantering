@@ -7,3 +7,8 @@ export interface Document {
   textColor?: string;
   backgroundColor?: string;
 }
+
+export interface QuillContent {
+  quillText: string;
+  quillInnerHTML: string;
+}

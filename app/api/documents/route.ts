@@ -12,12 +12,12 @@ export async function GET(req: Request, res: Response) {
 
 export async function POST(req: Request, res: Response) {
   try {
-    const { title, content, author, textColor, backgroundColor } =
+    const { title, content, author, dateCreated, textStyling } =
       await req.json();
 
     const result = await dbQuery({
-      sql: "INSERT INTO documents (title, content, author, textColor, backgroundColor, dateCreated) VALUES (?, ?, ?, ?, ?, NOW())",
-      values: [title, content, author, textColor, backgroundColor],
+      sql: "INSERT INTO documents (title, content, author, dateCreated, textStyling) VALUES (?, ?, ?, ?, ?)",
+      values: [title, content, author, dateCreated, textStyling],
     });
 
     return NextResponse.json(result);

@@ -1,45 +1,140 @@
 "use client";
-import Link from "next/link";
-import { Document } from "@/interfaces";
-import { HiDocumentText } from "react-icons/hi";
-import dbQuery from "@/lib/db";
 import { useEffect, useState } from "react";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
+import { QuillContent } from "@/interfaces";
 
-export default function DocumentsPage() {
-  const [documents, setDocuments] = useState([]);
-
-  useEffect(() => {
-    const getDocumentsData = async () => {
-      const result = await fetch("/api");
-      const documentsFromAPI = await result.json();
-      setDocuments(documentsFromAPI);
-    };
-    getDocumentsData();
-  }, []);
-
-  const documentsData = documents.map((document: Document) => {
-    const truncatedContent =
-      document.content.length > 25
-        ? `${document.content.substring(0, 35)}...`
-        : document.content;
-
-    return (
-      <tr key={`document-${document.id}`} className="hover">
-        <td className="flex gap-2 items-center">
-          <HiDocumentText className="h-8 w-8 text-secondary" />
-          <Link href={`/documents/${document.id}`}>{document.title}</Link>
-        </td>
-
-        <td className="hidden md:table-cell">{truncatedContent}</td>
-        <td className="hidden sm:table-cell">{document.author}</td>
-        <td>{document.dateCreated}</td>
-      </tr>
-    );
+export default function CreateDocument() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [docTitle, setDocTitle] = useState("");
+  const [quillContent, setQuillContent] = useState<QuillContent>({
+    quillText: "",
+    quillInnerHTML: "",
   });
 
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ direction: "rtl" }],
+
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }],
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"],
+    ],
+  };
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "background",
+    "color",
+    "font",
+    "size",
+    "header",
+  ];
+  const placeholder = "Compose an epic...";
+  const { quill, quillRef } = useQuill({ modules, formats, placeholder });
+
+  function getFormattedDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target) {
+      setDocTitle(event.target.value);
+    }
+  };
+
+  useEffect(() => {
+    if (quill) {
+      quill.on("text-change", () => {
+        setQuillContent({
+          quillText: quill.getText().trim(),
+          quillInnerHTML: quill.root.innerHTML,
+        });
+      });
+    }
+  }, [quill]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const response = await fetch("/api/documents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: docTitle,
+        content: quillContent.quillText,
+        author: "Niclas Nätfiske",
+        dateCreated: getFormattedDate(),
+        textStyling: quillContent.quillInnerHTML,
+      }),
+    });
+    if (quill) {
+      quill.deleteText(0, quill.getLength());
+    }
+    setDocTitle("");
+    setQuillContent({ quillText: "", quillInnerHTML: "" });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+  };
+
   return (
-    <div className="container mx-auto p-4 mb-16 mt-8">
-      <h2 className="text-xl font-bold text-secondary">Create document</h2>
+    <div className="container mx-auto p-4 mb-16 mt-12">
+      <div className="max-w-screen-lg mx-auto ">
+        <h2 className="text-2xl font-bold text-secondary mb-2">
+          Create document
+        </h2>
+        <form onSubmit={handleSubmit} className="min-h-[650px] flex flex-col">
+          <input
+            type="title"
+            className="text pl-4 py-2 border border-[#ccc] w-full"
+            placeholder="Title"
+            value={docTitle}
+            onChange={handleChange}
+          />
+          <div className="flex-grow" ref={quillRef} />
+          <button
+            type="submit"
+            className={`btn btn-secondary self-end mt-3 ${
+              isLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {isLoading ? "Adding" : "Add document"}
+            {isLoading && (
+              <span className="loading loading-dots loading-sm"></span>
+            )}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
