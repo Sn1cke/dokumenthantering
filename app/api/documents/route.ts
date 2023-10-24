@@ -6,7 +6,6 @@ export async function GET(req: Request, res: Response) {
     sql: "SELECT * FROM documents",
     values: [],
   });
-  console.log(result);
   return NextResponse.json(result);
 }
 
