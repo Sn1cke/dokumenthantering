@@ -10,7 +10,6 @@ export async function GET(
     sql: "SELECT * FROM documents where id = " + parseInt(id),
     values: [],
   });
-  console.log(result);
   return NextResponse.json(result);
 }
 
@@ -21,7 +20,6 @@ export async function PATCH(
   const { id } = params;
   const body = await req.json();
   const { title, content, textStyling } = body;
-  console.log("Received PATCH request:", { id, title, content, textStyling });
 
   const result = await dbQuery({
     sql:
