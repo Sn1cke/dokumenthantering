@@ -4,8 +4,7 @@ export interface Document {
   content: string;
   author: string;
   dateCreated: string;
-  textColor?: string;
-  backgroundColor?: string;
+  textStyling: string;
 }
 
 export interface QuillContent {

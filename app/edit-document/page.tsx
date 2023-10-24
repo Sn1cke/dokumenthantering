@@ -1,10 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { QuillContent } from "@/interfaces";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Document } from "@/interfaces";
 
 export default function CreateDocument() {
+  const [documentData, setDocumentData] = useState<Document | undefined>(
+    undefined
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [docTitle, setDocTitle] = useState("");
   const [quillContent, setQuillContent] = useState<QuillContent>({
@@ -51,17 +56,10 @@ export default function CreateDocument() {
     "size",
     "header",
   ];
-  const placeholder = "Compose an epic...";
-  const { quill, quillRef } = useQuill({ modules, formats, placeholder });
-
-  function getFormattedDate() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-  }
+  const { quill, quillRef } = useQuill({
+    modules,
+    formats,
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target) {
@@ -69,8 +67,26 @@ export default function CreateDocument() {
     }
   };
 
+  const searchParams = useSearchParams();
+  const documentID = searchParams.get("id");
   useEffect(() => {
-    if (quill) {
+    const getDocument = async () => {
+      const res = await fetch(`documents/${documentID}`);
+      const data = await res.json();
+      setDocumentData(data[0]);
+      setDocTitle(data[0].title);
+
+      if (data[0] && quill) {
+        quill.clipboard.dangerouslyPasteHTML(data[0].content);
+      }
+    };
+    if (documentID) getDocument();
+  }, [documentID]);
+
+  useEffect(() => {
+    if (quill && documentData) {
+      quill.clipboard.dangerouslyPasteHTML(documentData.textStyling);
+
       quill.on("text-change", () => {
         setQuillContent({
           quillText: quill.getText().trim(),
@@ -78,62 +94,63 @@ export default function CreateDocument() {
         });
       });
     }
-  }, [quill]);
+  }, [quill, documentData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const response = await fetch("/api/documents", {
-      method: "POST",
+    const response = await fetch(`documents/${documentID}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title: docTitle,
         content: quillContent.quillText,
-        author: "Niclas Nätfiske",
-        dateCreated: getFormattedDate(),
         textStyling: quillContent.quillInnerHTML,
       }),
     });
-    if (quill) {
-      quill.deleteText(0, quill.getLength());
-    }
-    setDocTitle("");
-    setQuillContent({ quillText: "", quillInnerHTML: "" });
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1500);
   };
 
   return (
-    <div className="container mx-auto p-4 mb-16 mt-8">
+    <div className="container mx-auto p-4 mb-16 mt-12">
       <div className="max-w-screen-lg mx-auto ">
         <h2 className="text-2xl font-bold text-secondary mb-2">
           Create document
         </h2>
-        <form onSubmit={handleSubmit} className="min-h-[650px] flex flex-col">
-          <input
-            type="title"
-            className="text pl-4 py-2 border border-[#ccc] w-full"
-            placeholder="Title"
-            value={docTitle}
-            onChange={handleChange}
-          />
-          <div className="flex-grow" ref={quillRef} />
-          <button
-            type="submit"
-            className={`btn btn-secondary self-end mt-3 ${
-              isLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {isLoading ? "Adding" : "Add document"}
-            {isLoading && (
-              <span className="loading loading-dots loading-sm"></span>
-            )}
-          </button>
-        </form>
+        {documentData ? (
+          <form onSubmit={handleSubmit} className="min-h-[650px] flex flex-col">
+            <input
+              type="title"
+              className="text pl-4 py-2 border border-[#ccc] w-full"
+              placeholder="Title"
+              value={docTitle}
+              onChange={handleChange}
+            />
+            <div className="flex-grow" ref={quillRef} />
+            <button
+              type="submit"
+              className={`btn btn-secondary self-end mt-3 ${
+                isLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+            >
+              {isLoading ? "Saving" : "Edit document"}
+              {isLoading && (
+                <span className="loading loading-dots loading-sm"></span>
+              )}
+            </button>
+          </form>
+        ) : (
+          <div className="mx- auto flex justify-center py-4">
+            <span className="loading loading-spinner loading-md"></span>{" "}
+            <span>Loading</span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,9 +3,15 @@ import Link from "next/link";
 import { Document } from "@/interfaces";
 import { HiDocumentText } from "react-icons/hi";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState([]);
+  const router = useRouter();
+
+  const handleEdit = (document: Document) => {
+    router.push("/edit-document/?id=" + document.id);
+  };
 
   useEffect(() => {
     const getDocumentsData = async () => {
@@ -23,10 +29,14 @@ export default function DocumentsPage() {
         : document.content;
 
     return (
-      <tr key={`document-${document.id}`} className="hover">
-        <td className="flex gap-2 items-center font-semibold">
+      <tr
+        onClick={() => handleEdit(document)}
+        key={`document-${document.id}`}
+        className="hover"
+      >
+        <td className="flex gap-2 items-center font-semibold hover:cursor-pointer">
           <HiDocumentText className="h-8 w-8 text-secondary" />
-          <Link href={`/documents/${document.id}`}>{document.title}</Link>
+          {document.title}
         </td>
 
         <td className="hidden md:table-cell">{truncatedContent}</td>
