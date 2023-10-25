@@ -9,8 +9,8 @@ export default function DocumentsPage() {
   const [documents, setDocuments] = useState([]);
   const router = useRouter();
 
-  const handleEdit = (document: Document) => {
-    router.push("/edit-document/?id=" + document.id);
+  const viewDocument = (document: Document) => {
+    router.push("/view-document/?id=" + document.id);
   };
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function DocumentsPage() {
 
     return (
       <tr
-        onClick={() => handleEdit(document)}
+        onClick={() => viewDocument(document)}
         key={`document-${document.id}`}
         className="hover"
       >
@@ -50,19 +50,30 @@ export default function DocumentsPage() {
     <div>
       <div className="container mx-auto p-4 mb-16 mt-8">
         <h2 className="text-2xl font-bold text-secondary">Documents</h2>
-        <div className="overflow-x-auto mt-4">
-          <table className="table table-zebra">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th className="hidden md:table-cell">Preview</th>
-                <th className="hidden sm:table-cell">Author</th>
-                <th>Date created</th>
-              </tr>
-            </thead>
-            <tbody>{documentsData}</tbody>
-          </table>
-        </div>
+        {documents ? (
+          <div className="overflow-x-auto mt-4">
+            <table className="table table-zebra">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th className="hidden md:table-cell">Preview</th>
+                  <th className="hidden sm:table-cell">Author</th>
+                  <th>Date created</th>
+                </tr>
+              </thead>
+              <tbody>{documentsData}</tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="mx-auto flex flex-col justify-center items-center py-4 gap-4 max-w-md">
+            <span className="text-lg">
+              There doesn't seem to be anything here!
+            </span>
+            <Link href="/create">
+              <button className="btn btn-secondary">Get started</button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

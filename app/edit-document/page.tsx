@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { QuillContent } from "@/interfaces";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Document } from "@/interfaces";
 
 export default function CreateDocument() {
+  const router = useRouter();
   const [documentData, setDocumentData] = useState<Document | undefined>(
     undefined
   );
@@ -69,6 +70,9 @@ export default function CreateDocument() {
 
   const searchParams = useSearchParams();
   const documentID = searchParams.get("id");
+  const viewDocument = () => {
+    router.push("/view-document/?id=" + documentID);
+  };
   useEffect(() => {
     const getDocument = async () => {
       const res = await fetch(`documents/${documentID}`);
@@ -114,6 +118,7 @@ export default function CreateDocument() {
 
     setTimeout(() => {
       setIsLoading(false);
+      viewDocument();
     }, 1500);
   };
 
@@ -139,7 +144,7 @@ export default function CreateDocument() {
                 isLoading ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
-              {isLoading ? "Saving" : "Edit document"}
+              {isLoading ? "Saving" : "Save"}
               {isLoading && (
                 <span className="loading loading-dots loading-sm"></span>
               )}
