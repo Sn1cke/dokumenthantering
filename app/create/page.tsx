@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { QuillContent } from "@/interfaces";
+import { useRouter } from "next/navigation";
 
 export default function CreateDocument() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [docTitle, setDocTitle] = useState("");
   const [quillContent, setQuillContent] = useState<QuillContent>({
@@ -69,6 +71,10 @@ export default function CreateDocument() {
     }
   };
 
+  const viewDocumentAfterCreate = () => {
+    router.push("/documents");
+  };
+
   useEffect(() => {
     if (quill) {
       quill.on("text-change", () => {
@@ -97,13 +103,15 @@ export default function CreateDocument() {
         textStyling: quillContent.quillInnerHTML,
       }),
     });
-    if (quill) {
-      quill.deleteText(0, quill.getLength());
-    }
-    setDocTitle("");
-    setQuillContent({ quillText: "", quillInnerHTML: "" });
+
     setTimeout(() => {
+      if (quill) {
+        quill.deleteText(0, quill.getLength());
+      }
+      setDocTitle("");
+      setQuillContent({ quillText: "", quillInnerHTML: "" });
       setIsLoading(false);
+      viewDocumentAfterCreate();
     }, 1500);
   };
 

@@ -24,15 +24,40 @@ export default function CreateDocument() {
     return { __html: htmlString || "" };
   };
 
-  const handleDelete = async () => {
+  const confirmDelete = async () => {
     const res = await fetch(`documents/${documentID}`, {
       method: "DELETE",
     });
+    router.push("/documents");
   };
 
   const handleEdit = () => {
     router.push("/edit-document/?id=" + documentID);
   };
+
+  const modalDelete = (
+    <dialog id="my_modal_3" className="modal">
+      <div className="modal-box">
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-xl">Deleting document</h3>
+        <p className="py-4">
+          Are you sure you wish to delete{" "}
+          <span className="font-semibold">{documentData?.title}</span>?
+        </p>
+        <div className="text-center">
+          <form method="dialog">
+            <button onClick={() => confirmDelete()} className="btn btn-accent">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+  );
 
   return (
     <div className="container mx-auto p-4 mb-16 mt-8">
@@ -47,10 +72,18 @@ export default function CreateDocument() {
         <div className="flex gap-4 justify-end mt-4">
           <button
             className="btn btn-secondary self-end mt-3"
-            onClick={() => handleDelete()}
+            onClick={() => {
+              const modal = document?.getElementById(
+                "my_modal_3"
+              ) as HTMLDialogElement | null;
+              if (modal) {
+                modal.showModal();
+              }
+            }}
           >
             Delete
           </button>
+          {modalDelete}
           <button
             onClick={() => handleEdit()}
             className="btn btn-secondary self-end mt-3"
