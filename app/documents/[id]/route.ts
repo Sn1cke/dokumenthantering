@@ -18,8 +18,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  const body = await req.json();
-  const { title, content, textStyling } = body;
+  const { title, content, textStyling } = await req.json();
 
   const result = await dbQuery({
     sql:

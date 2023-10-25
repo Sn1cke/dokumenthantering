@@ -1,9 +1,9 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { QuillContent } from "@/interfaces";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Document } from "@/interfaces";
 
 export default function CreateDocument() {
@@ -118,10 +118,10 @@ export default function CreateDocument() {
   };
 
   return (
-    <div className="container mx-auto p-4 mb-16 mt-12">
+    <div className="container mx-auto p-4 mb-16 mt-8">
       <div className="max-w-screen-lg mx-auto ">
         <h2 className="text-2xl font-bold text-secondary mb-2">
-          Create document
+          Editing document
         </h2>
         {documentData ? (
           <form onSubmit={handleSubmit} className="min-h-[650px] flex flex-col">
@@ -146,9 +146,9 @@ export default function CreateDocument() {
             </button>
           </form>
         ) : (
-          <div className="mx- auto flex justify-center py-4">
+          <div className="mx-auto flex justify-center py-4 gap-4">
             <span className="loading loading-spinner loading-md"></span>{" "}
-            <span>Loading</span>
+            <span>Loading document...</span>
           </div>
         )}
       </div>
