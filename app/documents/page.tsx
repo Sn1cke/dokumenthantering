@@ -4,6 +4,7 @@ import { Document } from "@/interfaces";
 import { HiDocumentText } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState([]);
@@ -17,7 +18,7 @@ export default function DocumentsPage() {
     const getDocumentsData = async () => {
       const result = await fetch("/api/documents");
       const documentsFromAPI = await result.json();
-      setDocuments(documentsFromAPI);
+      setDocuments(documentsFromAPI.reverse());
     };
     getDocumentsData();
   }, []);
@@ -27,6 +28,8 @@ export default function DocumentsPage() {
       document.content.length > 25
         ? `${document.content.substring(0, 35)}...`
         : document.content;
+
+    const formattedDate = format(new Date(document.dateCreated), "yyyy-MM-dd");
 
     return (
       <tr
@@ -41,7 +44,7 @@ export default function DocumentsPage() {
 
         <td className="hidden md:table-cell">{truncatedContent}</td>
         <td className="hidden sm:table-cell font-medium">{document.author}</td>
-        <td>{document.dateCreated}</td>
+        <td>{formattedDate}</td>
       </tr>
     );
   });

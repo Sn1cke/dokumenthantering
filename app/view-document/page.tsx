@@ -50,7 +50,10 @@ export default function CreateDocument() {
         </p>
         <div className="text-center">
           <form method="dialog">
-            <button onClick={() => confirmDelete()} className="btn btn-accent">
+            <button
+              onClick={() => confirmDelete()}
+              className="btn btn-accent text-white"
+            >
               Delete
             </button>
           </form>
@@ -71,7 +74,7 @@ export default function CreateDocument() {
         />
         <div className="flex gap-4 justify-end mt-4">
           <button
-            className="btn btn-secondary self-end mt-3"
+            className="btn btn-accent text-white self-end mt-3"
             onClick={() => {
               const modal = document?.getElementById(
                 "my_modal_3"

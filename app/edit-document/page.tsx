@@ -129,7 +129,7 @@ export default function CreateDocument() {
           Editing document
         </h2>
         {documentData ? (
-          <form onSubmit={handleSubmit} className="min-h-[650px] flex flex-col">
+          <div className="min-h-[650px] flex flex-col">
             <input
               type="title"
               className="text pl-4 py-2 border border-[#ccc] w-full"
@@ -138,18 +138,26 @@ export default function CreateDocument() {
               onChange={handleChange}
             />
             <div className="flex-grow" ref={quillRef} />
-            <button
-              type="submit"
-              className={`btn btn-secondary self-end mt-3 ${
-                isLoading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-            >
-              {isLoading ? "Saving" : "Save"}
-              {isLoading && (
-                <span className="loading loading-dots loading-sm"></span>
-              )}
-            </button>
-          </form>
+            <div className="flex self-end mt-3 gap-4">
+              <button
+                className="btn btn-accent text-white"
+                onClick={() => viewDocument()}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className={`btn btn-secondary ${
+                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+              >
+                {isLoading ? "Saving" : "Save"}
+                {isLoading && (
+                  <span className="loading loading-dots loading-sm"></span>
+                )}
+              </button>
+            </div>
+          </div>
         ) : (
           <div className="mx-auto flex justify-center py-4 gap-4">
             <span className="loading loading-spinner loading-md"></span>{" "}
