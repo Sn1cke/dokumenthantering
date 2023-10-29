@@ -1,6 +1,6 @@
 # Next.js Document Management System
 
-I've created a document management system using Next.js. Additionally I've used TainwindCSS and DaisyUI to design the website. It allows the users to create, edit, and delete text documents, as well as see edit the formatting of the documents in real time using the WYSIWYG-editor Quilljs-React.
+I've created a document management system using Next.js. Additionally I've used TainwindCSS and DaisyUI to design the website. It allows the users to create,read, edit, and delete text documents, as well as see edit the formatting of the documents in real time using the WYSIWYG-editor Quilljs-React.
 
 ## Prerequisites
 
