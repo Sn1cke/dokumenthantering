@@ -19,13 +19,13 @@ Make sure to replace the values with the actual credentials to the database.
 To get started with this project, follow these steps:
 
 1. Clone the repository to your local machine:
-   ```sh
-   git clone git@github.com:Sn1cke/dokumenthantering.git
-   ```
+```sh
+git clone git@github.com:Sn1cke/dokumenthantering.git
+```
 2. Change into the project directory
-   ```sh
-   cd dokumenthantering
-   ```
+```sh
+cd dokumenthantering
+```
 3. Install the project dependencies
 ```sh
 npm install
