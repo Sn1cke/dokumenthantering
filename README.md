@@ -26,14 +26,14 @@ To get started with this project, follow these steps:
    ```sh
    cd dokumenthantering
    ```
- 3. Install the project dependencies
- ```sh
- npm install
- ```
- 4. Start the development server
- ```sh
- npm run dev
- ```
+3. Install the project dependencies
+```sh
+npm install
+```
+4. Start the development server
+```sh
+npm run dev
+```
 Access the application in your browser at http://localhost:3000.
 
 ## Usage
