@@ -64,37 +64,44 @@ export default function CreateDocument() {
 
   return (
     <div className="container mx-auto p-4 mb-16 mt-8">
-      <div className="max-w-screen-lg mx-auto">
-        <h2 className="text-2xl font-bold text-primary mb-2">
-          {documentData?.title}
-        </h2>
-        <div
-          className="flex flex-col"
-          dangerouslySetInnerHTML={renderHTML(documentData?.textStyling)}
-        />
-        <div className="flex gap-4 justify-end mt-4">
-          <button
-            className="btn btn-accent text-white self-end mt-3"
-            onClick={() => {
-              const modal = document?.getElementById(
-                "my_modal_3"
-              ) as HTMLDialogElement | null;
-              if (modal) {
-                modal.showModal();
-              }
-            }}
-          >
-            Delete
-          </button>
-          {modalDelete}
-          <button
-            onClick={() => handleEdit()}
-            className="btn btn-secondary self-end mt-3"
-          >
-            Edit
-          </button>
+      {documentData ? (
+        <div className="max-w-screen-lg mx-auto">
+          <h2 className="text-2xl font-bold text-primary mb-2">
+            {documentData?.title}
+          </h2>
+          <div
+            className="flex flex-col"
+            dangerouslySetInnerHTML={renderHTML(documentData?.textStyling)}
+          />
+          <div className="flex gap-4 justify-end mt-4">
+            <button
+              className="btn btn-accent text-white self-end mt-3"
+              onClick={() => {
+                const modal = document?.getElementById(
+                  "my_modal_3"
+                ) as HTMLDialogElement | null;
+                if (modal) {
+                  modal.showModal();
+                }
+              }}
+            >
+              Delete
+            </button>
+            {modalDelete}
+            <button
+              onClick={() => handleEdit()}
+              className="btn btn-secondary self-end mt-3"
+            >
+              Edit
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mx-auto flex justify-center py-4 gap-4">
+          <span className="loading loading-spinner loading-md"></span>{" "}
+          <span>Loading document...</span>
+        </div>
+      )}
     </div>
   );
 }
