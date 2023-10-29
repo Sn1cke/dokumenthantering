@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Document Management System
+
+I've created a document management system using Next.js. Additionally, I've used TainwindCSS and DaisyUI to design the website. It allows the users to create, read, edit, and delete text documents. The user can also edit the formatting of the documents in real time using the WYSIWYG-editor Quilljs-React.
+
+## Prerequisites
+
+Before you begin, make sure you have the following environment variables set in your `.env.local` file:
+
+- `DB_HOST`: Your database host.
+- `DB_PORT`: Your database port.
+- `DB_NAME`: Your database name.
+- `DB_USER`: Your database username.
+- `DB_PASSWORD`: Your database user password.
+
+Make sure to replace the values with the actual credentials to the database.
 
 ## Getting Started
 
-First, run the development server:
+To get started with this project, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Clone the repository to your local machine:
+```sh
+git clone git@github.com:Sn1cke/dokumenthantering.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Change into the project directory
+```sh
+cd dokumenthantering
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install the project dependencies
+```sh
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Start the development server
+```sh
+npm run dev
+```
 
-## Learn More
+Access the application in your browser at http://localhost:3000.
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
+This project provides basic document management functionality (CRUD). You can create, read, update, and delete documents. The main components include:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+List of documents
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Detailed document page
 
-## Deploy on Vercel
+Create new document
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Edit existing document
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Delete document
