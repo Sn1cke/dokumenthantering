@@ -22,25 +22,33 @@ To get started with this project, follow these steps:
 ```sh
 git clone git@github.com:Sn1cke/dokumenthantering.git
 ```
+
 2. Change into the project directory
 ```sh
 cd dokumenthantering
 ```
+
 3. Install the project dependencies
 ```sh
 npm install
 ```
+
 4. Start the development server
 ```sh
 npm run dev
 ```
+
 Access the application in your browser at http://localhost:3000.
 
 ## Usage
 This project provides basic document management functionality (CRUD). You can create, read, update, and delete documents. The main components include:
 
 List of documents
+
 Detailed document page
+
 Create new document
+
 Edit existing document
+
 Delete document
